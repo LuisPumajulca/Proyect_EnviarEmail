@@ -20,9 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         } 
 
-        limpiarAlerta(e.target.parentElement);
+        if(e.target.id=== 'email' && !validarEmail(e.target.value)) {
+            mostrarAlerta('El email no es válido' , e.target.parentElement);
+            return;
+        }
 
-        console.log('despues del IF')
+        limpiarAlerta(e.target.parentElement);
     }
 
     function mostrarAlerta(mensaje, referencia) {
@@ -45,6 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if(alerta) {
             alerta.remove();
         }
+    }
+    function validarEmail(email){
+        const regex =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/  // Expresion regular , va a buscar un patron en un cadena de texto o en una serie de numeros 
+        const resultado = regex.test(email);
+        return resultado;
     }
     
 });
