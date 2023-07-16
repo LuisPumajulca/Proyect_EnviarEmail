@@ -14,20 +14,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validar(e) {
         if(e.target.value.trim() === '') { // .trim elimina espacios en blanco
-            mostrarAlerta(`El campo ${e.target.id} es obligatorio!`);
+            mostrarAlerta(`El campo ${e.target.id} es obligatorio!`, e.target.parentElement);
         } else {
             console.log('si hay algo...')
         }
     }
 
-    function mostrarAlerta(mensaje) {
+    function mostrarAlerta(mensaje, referencia) {
         // Generando alerta en HTML
         const error = document.createElement('P');
         error.textContent = mensaje;
         error.classList.add('bg-red-600', 'text-white', 'p-2', 'text-center');
 
         // Inyectar el error al formulario
-        formulario.appendChild(error);
+        referencia.appendChild(error);
     }
     
 });
