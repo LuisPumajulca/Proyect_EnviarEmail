@@ -1,31 +1,46 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    const email = {
+        email: '',
+        asunto: '',
+        mensaje: ''
+    }
+
     // Seleccionar los elementos de la interfaz
     const inputEmail = document.querySelector('#email');
-    const inputCC = document.querySelector('#cc');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
+    const btnSubmit = document.querySelector('#formulario button[type="submit"]');
 
     // Asignar eventos
-    inputEmail.addEventListener('blur', validar); // blur se ejecuta cuando abandona un campo
-    inputCC.addEventListener('blur', validar);
-    inputAsunto.addEventListener('blur', validar);
-    inputMensaje.addEventListener('blur' , validar);
+    inputEmail.addEventListener('input', validar); // blur se ejecuta cuando abandona un campo
+    inputAsunto.addEventListener('input', validar);
+    inputMensaje.addEventListener('input' , validar);
 
 
     function validar(e) {
         if(e.target.value.trim() === '') { // .trim elimina espacios en blanco
             mostrarAlerta(`El campo ${e.target.id} es obligatorio!`, e.target.parentElement);
+            email[e.target.name] = '' // reiniciamos 
+            comprobarEmail();
             return;
         } 
 
-        if(e.target.id=== 'email' && !validarEmail(e.target.value)) {
+        if(e.target.id === 'email' && !validarEmail(e.target.value)) {
             mostrarAlerta('El email no es válido' , e.target.parentElement);
+            email[e.target.name] = '' // reiniciamos 
+            comprobarEmail();
             return;
         }
 
         limpiarAlerta(e.target.parentElement);
+
+        // Asignar los valores
+        email[e.target.name] = e.target.value.trim().toLowerCase();
+
+        // Comprobar el objeto de email
+        comprobarEmail();
     }
 
     function mostrarAlerta(mensaje, referencia) {
@@ -55,4 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return resultado;
     }
     
+    function comprobarEmail() {
+        if(Object.values(email).includes('')) {
+            btnSubmit.classList.add('opacity-50');
+            btnSubmit.disabled = true;
+            return
+        } 
+            btnSubmit.classList.remove('opacity-50');
+            btnSubmit.disabled = false;
+    }
 });
