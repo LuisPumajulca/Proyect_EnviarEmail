@@ -12,11 +12,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
     const btnSubmit = document.querySelector('#formulario button[type="submit"]');
+    const btnReset = document.querySelector('#formulario button[type="reset"]');
 
     // Asignar eventos
     inputEmail.addEventListener('input', validar); // blur se ejecuta cuando abandona un campo
     inputAsunto.addEventListener('input', validar);
     inputMensaje.addEventListener('input' , validar);
+
+    btnReset.addEventListener('click' , function(e) {
+        e.preventDefault();
+
+        // reiniciar el objeto
+        email.email = '';
+        email.asunto = '';
+        email.nebsaje = '';
+
+        formulario.reset();
+        comprobarEmail();
+    })
 
 
     function validar(e) {
