@@ -2,12 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const email = {
         email: '',
+        cc: '',
         asunto: '',
         mensaje: ''
     }
 
     // Seleccionar los elementos de la interfaz
     const inputEmail = document.querySelector('#email');
+    const inputCc = document.querySelector('#cc');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
@@ -17,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Asignar eventos
     inputEmail.addEventListener('input', validar); // blur se ejecuta cuando abandona un campo
+    inputCc.addEventListener('input', validar);
     inputAsunto.addEventListener('input', validar);
     inputMensaje.addEventListener('input' , validar);
     formulario.addEventListener('submit' , enviarEmail);
@@ -55,6 +58,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function validar(e) {
+        if(e.target.id === 'cc' && e.target.value.trim() !== '' && !validarEmail(e.target.value)){
+            mostrarAlerta('El campo CC no es un email valido', e.target.parentElement);
+            email[e.target.name] = ''; //Reiniciar el valor del campo CC
+            comprobarEmail();
+            return;
+        }
+
         if(e.target.value.trim() === '') { // .trim elimina espacios en blanco
             mostrarAlerta(`El campo ${e.target.id} es obligatorio!`, e.target.parentElement);
             email[e.target.name] = '' // reiniciamos 
@@ -79,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function mostrarAlerta(mensaje, referencia) {
-       
+        
         limpiarAlerta(referencia);
 
         // Generando alerta en HTML
